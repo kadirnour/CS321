@@ -36,7 +36,9 @@ namespace HW1
         /// <param name="node"></param>
         private void Insert(int data, ref BSTNode node)
         {
-            //TODO
+            if (node == null) { node = CreateNode(data); count++; }
+            else if (data > node.data) Insert(data, ref node.right);
+            else if (data < node.data) Insert(data, ref node.left);
         }
         /// <summary>
         /// Private helper InOrderTraversal method prints the data from every node in the BST in order from smallest to largest
@@ -44,7 +46,12 @@ namespace HW1
         /// <param name="root"></param>
         private void InOrderTraversal(BSTNode root, StringBuilder ret)
         {
-            //TODO
+            if (root != null)
+            {
+                InOrderTraversal(root.left, ret);
+                ret.Append(root.data + " ");
+                InOrderTraversal(root.right, ret);
+            }
         }
         /// <summary>
         /// Returns max level of the BST
@@ -53,9 +60,15 @@ namespace HW1
         /// <returns>Max level</returns>
         private int GetMaxLevel(BSTNode root)
         {
-            //TODO
+            if (root != null)
+            {
+                int left = GetMaxLevel(root.left);
+                int right = GetMaxLevel(root.right);
 
-            return -1;
+                if (right > left) return right + 1;
+                else return left + 1;
+            }
+            return 0;
         }
         /// <summary>
         /// Default constructor
@@ -108,6 +121,7 @@ namespace HW1
             Console.WriteLine("\nTree Statistics:");
             Console.WriteLine("     Number of Nodes: {0}", count);
             Console.WriteLine("     Number of Levels: {0}", levels);
+            //Formula for minimum number of levels in a tree
             Console.WriteLine("     Minimum level of a tree with {0} nodes cound have = {1}", count, Math.Ceiling(Math.Log(count + 1, 2)));
             Console.WriteLine("Done");
         }
