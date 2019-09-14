@@ -16,5 +16,11 @@ namespace HW2
         {
             InitializeComponent();
         }
+        private void OnLoad(Object sender, EventArgs e)
+        {
+            Algorithms obj = new Algorithms();
+
+            obj.Run();
+        }
     }
 }
