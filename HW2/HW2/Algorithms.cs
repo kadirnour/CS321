@@ -35,13 +35,17 @@ namespace HW2
         }
 
         /// <summary>
-        /// Runs UsingHashSet, UsingConstantSpace and UsingSorting
+        /// Runs UsingHashSet, UsingConstantSpace and UsingSorting and saves results to a list
         /// </summary>
-        public void Run()
+        /// <returns>Results of UsingHashSet, UsingConstantSpace and UsingSorting in a List</returns>
+        public List<int> Run()
         {
-            UsingHashSet();
-            UsingConstantSpace();
-            UsingSorting();
+            return new List<int>
+            {
+                UsingHashSet(),
+                UsingConstantSpace(),
+                UsingSorting()
+            };
         }
 
         /// <summary>
@@ -49,7 +53,9 @@ namespace HW2
         /// </summary>
         private int UsingHashSet()
         {
-            return -1;
+            HashSet<int> ht = new HashSet<int>(List);
+            return ht.Count;
+
         }
 
         /// <summary>
@@ -57,15 +63,41 @@ namespace HW2
         /// </summary>
         private int UsingConstantSpace()
         {
-            return -1;
+            int count = 0;
+
+            for (int i = 0; i < List.Count; i++)
+            {
+                bool seen = false;
+                for (int j = i + 1; j < List.Count; j++)
+                {
+                    if (List[i] == List[j] && !seen)
+                    {
+                        seen = true;
+                        count++;
+                    }
+                }
+            }
+
+            return List.Count - count;
         }
 
         /// <summary>
-        /// Finds distinct number of integers in list by sorting and 
+        /// Finds distinct number of integers in list by sorting and counting
         /// </summary>
         private int UsingSorting()
         {
-            return -1;
+            int count = List.Count;
+            int prev = -1;
+
+            List.Sort();
+            foreach (int x in List)
+            {
+                if (x == prev)
+                    count--;
+                prev = x;
+            }
+
+            return count;
         }
     }
 }
