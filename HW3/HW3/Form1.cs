@@ -24,7 +24,8 @@ namespace HW3
         /// <param name="sr">TextReader</param>
         private void LoadText(TextReader sr)
         {
-            throw new NotImplementedException();
+            textBox.Clear();
+            textBox.Text = sr.ReadToEnd();
         }
 
         /// <summary>
@@ -34,7 +35,19 @@ namespace HW3
         /// <param name="e">Button Click</param>
         private void LoadFile_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            OpenFileDialog open = new OpenFileDialog();
+            StreamReader sr;
+            string path = null;
+
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                path = open.FileName;
+                if (path != null)
+                {
+                    sr = new StreamReader(path);
+                    LoadText(sr);
+                }
+            }
         }
 
         /// <summary>
@@ -44,7 +57,24 @@ namespace HW3
         /// <param name="e"></param>
         private void Save_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            SaveFileDialog save = new SaveFileDialog();
+            save.Filter = "Text File|*.txt";
+            save.Title = "Save Text File";
+
+
+            if (save.ShowDialog() == DialogResult.OK)
+            {
+                if (save.FileName != null)
+                {
+                    FileStream fs = (FileStream)save.OpenFile();
+
+                    byte[] text = new UTF8Encoding(true).GetBytes(textBox.Text);
+                    fs.Write(text, 0, text.Length);
+
+                    fs.Close();
+                }
+
+            }
         }
 
         /// <summary>
@@ -54,7 +84,8 @@ namespace HW3
         /// <param name="e">Button Click</param>
         private void First50_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            FibonacciTextReader fib = new FibonacciTextReader(50);
+            LoadText(fib);
         }
 
         /// <summary>
@@ -64,7 +95,8 @@ namespace HW3
         /// <param name="e">Button Click</param>
         private void First100_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            FibonacciTextReader fib = new FibonacciTextReader(100);
+            LoadText(fib);
         }
     }
 }
