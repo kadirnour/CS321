@@ -19,7 +19,15 @@ namespace HW3.Test
         [Test]
         public void ReadLineTest()
         {
-            throw new NotImplementedException();
+            FibonacciTextReader fib = new FibonacciTextReader(50);
+            string str = null;
+            for (int i = 0; i < 50; i++)
+            {
+                str = fib.ReadLine();
+            }
+
+            Assert.AreEqual("7778742049", str);
+
         }
         /// <summary>
         /// Test method for FibonacciTextReader.ReadToEnd()
@@ -27,7 +35,10 @@ namespace HW3.Test
         [Test]
         public void ReadToEndTest()
         {
-            throw new NotImplementedException();
+            FibonacciTextReader fib = new FibonacciTextReader(3);
+            string str = fib.ReadToEnd();
+
+            Assert.AreEqual("1: 0\r\n2: 1\r\n3: 1\r\n", str);
         }
     }
 }

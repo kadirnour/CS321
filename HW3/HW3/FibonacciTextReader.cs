@@ -25,7 +25,7 @@ namespace HW3
         /// <param name="max">Max Fibonacci numbers</param>
         public FibonacciTextReader(int max)
         {
-            throw new NotImplementedException();
+            maxLines = max;
         }
 
         /// <summary>
@@ -34,7 +34,26 @@ namespace HW3
         /// <returns>Fibonacci number as string</returns>
         public override string ReadLine()
         {
-            throw new NotImplementedException();
+            if (count == maxLines)
+                return null;
+            if (count == 0)
+            {
+                count++;
+                return 0.ToString();
+            }
+            if (count == 1)
+            {
+                count++;
+                return 1.ToString();
+            }
+
+            result = f1 + f2;
+            f1 = f2;
+            f2 = result;
+
+            count++;
+
+            return result.ToString();
         }
 
         /// <summary>
@@ -43,8 +62,19 @@ namespace HW3
         /// <returns>Fibonacci sequence with a length of maxLines</returns>
         public override string ReadToEnd()
         {
-            throw new NotImplementedException();
+            string fib = ReadLine();
+            StringBuilder sb = new StringBuilder();
+            int fibCount = 1;
+            while (fib != null)
+            {
+                sb.Append(fibCount.ToString() + ": " + fib + Environment.NewLine);
+                fibCount++;
+                fib = ReadLine();
+            }
+
+            return sb.ToString();
         }
     }
+    
 }
 
