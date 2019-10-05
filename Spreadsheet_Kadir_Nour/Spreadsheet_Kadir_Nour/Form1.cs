@@ -48,7 +48,7 @@ namespace Spreadsheet_Kadir_Nour
         /// <param name="e"></param>
         private void OnCellChanged(object sender, PropertyChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            myGrid.Rows[(sender as Cell).RowIndex].Cells[(sender as Cell).ColumnIndex].Value = (sender as Cell).Value;
         }
 
         /// <summary>
@@ -58,7 +58,9 @@ namespace Spreadsheet_Kadir_Nour
         /// <param name="e">CellEndEdit</param>
         private void CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            throw new NotImplementedException();
+            if (spreadsheet == null) { return; }
+            string text = myGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            spreadsheet.GetCell(e.RowIndex, e.ColumnIndex).Text = text;
         }
     }
 }

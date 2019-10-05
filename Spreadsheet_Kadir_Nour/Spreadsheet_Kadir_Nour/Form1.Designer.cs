@@ -43,6 +43,7 @@
             this.myGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.myGrid.Size = new System.Drawing.Size(800, 450);
             this.myGrid.TabIndex = 0;
+            this.myGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.CellEndEdit);
             // 
             // Form1
             // 
