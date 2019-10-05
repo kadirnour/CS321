@@ -45,7 +45,12 @@ namespace CptS321
             get { return text; }
             set
             {
-                throw new NotImplementedException();
+                if (value != text)
+                {
+                    text = value;
+                    OnPropertyChanged("Text");
+                }
+
             }
         }
 
@@ -59,7 +64,11 @@ namespace CptS321
             //Allows only the inherited class and classes within the same assembly to set value
             protected internal set 
             {
-                throw new NotImplementedException();
+                if (value != this.value)
+                {
+                    this.value = value;
+                }
+
             }
         }
 
@@ -70,7 +79,10 @@ namespace CptS321
         /// <param name="col">Column number of cell</param>
         public Cell(int row, int col)
         {
-            throw new NotImplementedException();
+            rowIndex = row;
+            columnIndex = col;
+            text = value = "";
+
         }
 
         /// <summary>
@@ -79,7 +91,7 @@ namespace CptS321
         /// <param name="name">Property name</param>
         protected void OnPropertyChanged(string name)
         {
-            throw new NotImplementedException();
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }
