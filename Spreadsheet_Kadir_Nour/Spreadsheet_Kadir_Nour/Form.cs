@@ -11,13 +11,13 @@ using CptS321;
 
 namespace Spreadsheet_Kadir_Nour
 {
-    public partial class Form1 : Form
+    public partial class Form : System.Windows.Forms.Form
     {
 
         public Spreadsheet spreadsheet;
 
 
-        public Form1()
+        public Form()
         {
             InitializeComponent();
 
