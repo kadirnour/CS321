@@ -38,20 +38,19 @@
             this.myGrid.AllowUserToAddRows = false;
             this.myGrid.AllowUserToDeleteRows = false;
             this.myGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.myGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.myGrid.Location = new System.Drawing.Point(0, 0);
+            this.myGrid.Location = new System.Drawing.Point(0, -1);
             this.myGrid.Name = "myGrid";
             this.myGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.myGrid.Size = new System.Drawing.Size(800, 450);
+            this.myGrid.Size = new System.Drawing.Size(800, 422);
             this.myGrid.TabIndex = 0;
             this.myGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.CellEndEdit);
             // 
             // button1
             // 
             this.button1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button1.Location = new System.Drawing.Point(0, 427);
+            this.button1.Location = new System.Drawing.Point(0, 420);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(800, 23);
+            this.button1.Size = new System.Drawing.Size(800, 30);
             this.button1.TabIndex = 1;
             this.button1.Text = "Perform Demo";
             this.button1.UseVisualStyleBackColor = true;
