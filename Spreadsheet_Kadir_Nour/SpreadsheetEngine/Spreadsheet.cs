@@ -41,7 +41,20 @@ namespace CptS321
         /// <param name="cols">Number of columns</param>
         public Spreadsheet(int rows, int cols)
         {
-            throw new NotImplementedException();
+            this.rows = rows;
+            this.cols = cols;
+
+            cells = new Cell[rows, cols];
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    cells[i, j] = new ConcreteCell(i, j);
+                    cells[i, j].PropertyChanged += OnCellPropertyChange;
+
+                }
+            }
         }
 
         /// <summary>
@@ -52,7 +65,7 @@ namespace CptS321
         /// <returns></returns>
         public Cell GetCell(int row, int col)
         {
-            throw new NotImplementedException();
+            return cells[row, col] == null ? null : cells[row, col];
         }
 
         /// <summary>
@@ -62,7 +75,15 @@ namespace CptS321
         /// <returns></returns>
         public Cell GetCell(string CellName)
         {
-            throw new NotImplementedException();
+            string col = CellName.Substring(1);
+            int rowNum = -1;
+
+            rowNum = Int32.Parse(col);
+
+            if (!Char.IsLetter(CellName[0]) || rowNum > rows || rowNum < 0)
+                return null;
+
+            return GetCell(rowNum - 1, CellName[0] - 65);
         }
 
         /// <summary>
@@ -72,7 +93,20 @@ namespace CptS321
         /// <param name="e">PropertyChangedEventHandler</param>
         protected void OnCellPropertyChange(object sender, PropertyChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (e.PropertyName == "Text")
+            {
+                if ((sender as Cell).Text[0] == '=')
+                {
+                    string otherCell = (sender as Cell).Text.Substring(1);
+
+                    //Evaluate Formula (supports '=' only)
+                    (sender as Cell).Value = GetCell(otherCell).Value;
+                }
+                else
+                    (sender as Cell).Value = (sender as Cell).Text;
+            }
+            CellPropertyChanged?.Invoke(sender, e); //Lets the UI know that a cells value has changed
+
         }
     }
 }
