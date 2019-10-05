@@ -62,5 +62,22 @@ namespace Spreadsheet_Kadir_Nour
             string text = myGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
             spreadsheet.GetCell(e.RowIndex, e.ColumnIndex).Text = text;
         }
+
+        /// <summary>
+        /// Demo 
+        /// </summary>
+        /// <param name="sender">Button</param>
+        /// <param name="e">Button Click</param>
+        private void DemoButton(object sender, EventArgs e)
+        {
+            Random rand = new Random();
+            string str = "Hello World!";
+            for (int i = 0; i < 50; i++)
+            {
+                spreadsheet.GetCell(rand.Next(50), rand.Next(2, 26)).Text = str;
+                spreadsheet.GetCell(i, 1).Text = "This is cell B" + (i + 1);
+                spreadsheet.GetCell(i, 0).Text = "=B" + (i + 1);
+            }
+        }
     }
 }
