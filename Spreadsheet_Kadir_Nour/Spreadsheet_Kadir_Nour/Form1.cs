@@ -38,7 +38,6 @@ namespace Spreadsheet_Kadir_Nour
 
             spreadsheet = new Spreadsheet(50, 26);
             spreadsheet.CellPropertyChanged += OnCellChanged;
-
         }
 
         /// <summary>

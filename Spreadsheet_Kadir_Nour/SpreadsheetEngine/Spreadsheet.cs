@@ -52,7 +52,6 @@ namespace CptS321
                 {
                     cells[i, j] = new ConcreteCell(i, j);
                     cells[i, j].PropertyChanged += OnCellPropertyChange;
-
                 }
             }
         }
@@ -105,8 +104,8 @@ namespace CptS321
                 else
                     (sender as Cell).Value = (sender as Cell).Text;
             }
-            CellPropertyChanged?.Invoke(sender, e); //Lets the UI know that a cells value has changed
 
+            CellPropertyChanged?.Invoke(sender, e); //Lets the UI know that a cells value has changed
         }
     }
 }

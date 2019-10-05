@@ -68,7 +68,6 @@ namespace CptS321
                 {
                     this.value = value;
                 }
-
             }
         }
 
@@ -82,7 +81,6 @@ namespace CptS321
             rowIndex = row;
             columnIndex = col;
             text = value = "";
-
         }
 
         /// <summary>
