@@ -43,8 +43,20 @@
   <ItemGroup>
     <Compile Include="Cell.cs" />
     <Compile Include="ConcreteCell.cs" />
+    <Compile Include="ConstantNode.cs" />
+    <Compile Include="DivideNode.cs" />
+    <Compile Include="ExponentNode.cs" />
+    <Compile Include="ExpressionTree.cs" />
+    <Compile Include="MinusNode.cs" />
+    <Compile Include="MultiplyNode.cs" />
+    <Compile Include="Node.cs" />
+    <Compile Include="OperatorFactory.cs" />
+    <Compile Include="OperatorNode.cs" />
+    <Compile Include="PlusNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Spreadsheet.cs" />
+    <Compile Include="VariableNode.cs" />
+    <Compile Include="VariableReference.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
