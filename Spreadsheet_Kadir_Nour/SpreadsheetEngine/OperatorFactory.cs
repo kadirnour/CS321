@@ -18,7 +18,21 @@ namespace CptS321
         /// <returns></returns>
         public OperatorNode CreateOperatorNode(string op)
         {
-            throw new NotImplementedException();
+            switch (op)
+            {
+                case "+":
+                    return new PlusNode();
+                case "-":
+                    return new MinusNode();
+                case "*":
+                    return new MultiplyNode();
+                case "/":
+                    return new DivideNode();
+                case "^":
+                    return new ExponentNode();
+                default:
+                    throw new Exception("Unsupported Operator");
+            }
         }
     }
 }

@@ -16,7 +16,9 @@ namespace CptS321
         /// </summary>
         public ExponentNode()
         {
-            throw new NotImplementedException();
+            this.Type = "^";
+            this.Left = null;
+            this.Right = null;
         }
         /// <summary>
         /// Specific Eval for exponent
@@ -24,7 +26,7 @@ namespace CptS321
         /// <returns>double value</returns>
         public override double Eval()
         {
-            throw new NotImplementedException();
+            return Math.Pow(this.Left.Eval(), this.Right.Eval());
         }
     }
 

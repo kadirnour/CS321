@@ -19,7 +19,8 @@ namespace CptS321
         /// <param name="name">variable name</param>
         public VariableNode(string name)
         {
-            throw new NotImplementedException();
+            this.Name = name;
+            this.Type = "v";
         }
         
         /// <summary>
@@ -28,7 +29,10 @@ namespace CptS321
         /// <returns>Node value</returns>
         public override double Eval()
         {
-            throw new NotImplementedException();
+            var val = VariableReference.Instance.VariableDictionary[this.Name];
+            if (val == null) { throw new Exception("Variable has no Value"); }
+
+            return val.Value;
         }
     }
 }

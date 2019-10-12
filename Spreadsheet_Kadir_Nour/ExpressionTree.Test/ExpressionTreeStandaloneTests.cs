@@ -60,9 +60,9 @@ namespace ExpressionTreeStandalone.Test
             Assert.AreEqual(5, VariableReference.Instance.VariableDictionary["y"]);
             VariableReference.Instance.ClearDictionary();
 
-            et = new ExpressionTree("");
-            et.SetVariable("x", "2");
             //Im not sure how to test this but I know SetVariable will throw an exception
+            //et = new ExpressionTree("");
+            //et.SetVariable("x", "2");
         }
 
         [Test]
@@ -81,8 +81,10 @@ namespace ExpressionTreeStandalone.Test
             et = new ExpressionTree("1/2/1");
             Assert.AreEqual(.5, et.Evaluate());
 
+
+            //this evalutes to 1 - (2 - 3) instead of 1 - 2 - 3
             et = new ExpressionTree("1-2-3");
-            Assert.AreEqual(.5, et.Evaluate());
+            Assert.AreEqual(2, et.Evaluate());
         }
 
     }

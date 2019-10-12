@@ -16,7 +16,9 @@ namespace CptS321
         /// </summary>
         public PlusNode()
         {
-            throw new NotImplementedException();
+            this.Type = "+";
+            this.Left = null;
+            this.Right = null;
         }
         /// <summary>
         /// Specific Eval for plus
@@ -24,7 +26,7 @@ namespace CptS321
         /// <returns></returns>
         public override double Eval()
         {
-            throw new NotImplementedException();
+            return this.Left.Eval() + this.Right.Eval();
         }
     }
 

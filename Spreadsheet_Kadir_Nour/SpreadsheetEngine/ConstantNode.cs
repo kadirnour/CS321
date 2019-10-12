@@ -22,7 +22,8 @@ namespace CptS321
         /// <param name="value"></param>
         public ConstantNode(double value)
         {
-            throw new NotImplementedException();
+            this.Value = value;
+            this.Type = "c";
         }
 
         /// <summary>
@@ -31,7 +32,7 @@ namespace CptS321
         /// <returns>Node value</returns>
         public override double Eval()
         {
-            throw new NotImplementedException();
+            return Value;
         }
     }
 }

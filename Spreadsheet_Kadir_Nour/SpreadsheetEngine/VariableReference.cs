@@ -21,14 +21,18 @@ namespace CptS321
         {
             get
             {
-                throw new NotImplementedException();
+                if(instance == null)
+                {
+                    instance = new VariableReference();
+                }
+                return instance;
             }
         }
         public Dictionary<string, double?> VariableDictionary = new Dictionary<string, double?>();
 
         public void ClearDictionary()
         {
-            throw new NotImplementedException();
+            VariableDictionary.Clear();
         }
     }
 }

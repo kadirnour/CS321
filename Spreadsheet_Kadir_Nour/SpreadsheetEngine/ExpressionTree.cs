@@ -32,7 +32,11 @@ namespace CptS321
         /// <param name="expression"></param>
         public ExpressionTree(string expression)
         {
-            throw new NotImplementedException();
+            if(expression == "") { Console.WriteLine("Empty Expression"); return; }
+            this.Expression = expression.Replace(" ", ""); //remove whitespace
+            this.tokens = Regex.Split(this.Expression, opPattern);
+
+            BuildTree();
         }
 
         /// <summary>
@@ -42,7 +46,16 @@ namespace CptS321
         /// <param name="variableValue">value</param>
         public void SetVariable(string variableName, string variableValue)
         {
-            throw new NotImplementedException();
+            if (tokens == null) { throw new Exception("No Expression"); }
+            foreach (string x in tokens)
+            {
+                if (x == variableName)
+                {
+                    VariableReference.Instance.VariableDictionary[variableName] = float.Parse(variableValue);
+                    return;
+                }
+            }
+            throw new Exception("Variable Not In Expression");
         }
 
         /// <summary>
@@ -52,7 +65,7 @@ namespace CptS321
         /// <returns>double value</returns>
         private double? Evaluate(Node node)
         {
-            throw new NotImplementedException();
+            return node.Eval();
         }
 
         /// <summary>
@@ -61,14 +74,48 @@ namespace CptS321
         /// <returns>evaluated double or null</returns>
         public double? Evaluate()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return Evaluate(root);
+            }
+            catch (DivideByZeroException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
         /// <summary>
         /// Reorders ExpressionTree.tokens to Postfix
         /// </summary>
         private void ToPostFix()
         {
-            throw new NotImplementedException();
+            Stack<string> opStack = new Stack<string>();
+            string[] postfixTokens = new string[tokens.Length];
+
+            int j = 0;
+            foreach (string s in tokens)
+            {
+                if(!Regex.IsMatch(s, opPattern))
+                {
+                    postfixTokens[j] = s;
+                    j++;
+                }
+                else
+                {
+                    opStack.Push(s);
+                }
+            }
+
+            while (opStack.Any())
+            {
+                postfixTokens[j] = opStack.Pop();
+                j++;
+            }
+
+            tokens = postfixTokens;
         }
 
         /// <summary>
@@ -76,7 +123,32 @@ namespace CptS321
         /// </summary>
         private void BuildTree()
         {
-            throw new NotImplementedException();
+            ToPostFix();
+            Stack<Node> nodeStack = new Stack<Node>();
+            OperatorFactory opFac = new OperatorFactory();
+
+            foreach(string s in tokens)
+            {
+                if(Regex.IsMatch(s, @"[0-9]"))
+                {
+                    nodeStack.Push(new ConstantNode(float.Parse(s)));
+                }
+                else if(Regex.IsMatch(s, @"^[a-zA-z]"))
+                {
+                    nodeStack.Push(new VariableNode(s));
+                    VariableReference.Instance.VariableDictionary.Add(s, null);
+                }
+                else
+                {
+                    OperatorNode op = opFac.CreateOperatorNode(s);
+                    op.Right = nodeStack.Pop();
+                    op.Left = nodeStack.Pop();
+
+                    nodeStack.Push(op);
+                }
+            }
+
+            root = nodeStack.Pop();
         }
 
     }

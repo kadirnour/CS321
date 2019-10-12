@@ -16,7 +16,9 @@ namespace CptS321
         /// </summary>
         public DivideNode()
         {
-            throw new NotImplementedException();
+            this.Type = "/";
+            this.Left = null;
+            this.Right = null;
         }
         /// <summary>
         /// Specific Eval for divide
@@ -24,7 +26,14 @@ namespace CptS321
         /// <returns>double value</returns>
         public override double Eval()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return this.Left.Eval() / this.Right.Eval();
+            }
+            catch (DivideByZeroException)
+            {
+                throw new DivideByZeroException();
+            }
         }
     }
 
