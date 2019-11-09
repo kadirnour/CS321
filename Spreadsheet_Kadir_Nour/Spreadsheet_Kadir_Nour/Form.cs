@@ -16,7 +16,6 @@ namespace Spreadsheet_Kadir_Nour
 
         public Spreadsheet spreadsheet;
 
-
         public Form()
         {
             InitializeComponent();
@@ -43,23 +42,139 @@ namespace Spreadsheet_Kadir_Nour
         /// <summary>
         /// Sets value of UI grid cell to the value of the backend Cell
         /// </summary>
-        /// <param name="sender"></param>
+        /// <param name="sender">DataGridView</param>
         /// <param name="e"></param>
         private void OnCellChanged(object sender, PropertyChangedEventArgs e)
         {
             myGrid.Rows[(sender as Cell).RowIndex].Cells[(sender as Cell).ColumnIndex].Value = (sender as Cell).Value;
+            myGrid.Rows[(sender as Cell).RowIndex].Cells[(sender as Cell).ColumnIndex].Style.BackColor = Color.FromArgb((int)(sender as Cell).BGColor);
+
         }
 
         /// <summary>
-        /// Sets the UI grid cell's value to the backend cell's text
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CellColorChanged(object sender, EventArgs e)
+        {
+            Stack<Cell> curCells = new Stack<Cell>();
+            Stack<Cell> prevCells = new Stack<Cell>();
+
+            Stack<uint> curColor = new Stack<uint>();
+            Stack<uint> prevColor = new Stack<uint>();
+
+            ColorDialog cd = new ColorDialog();
+            cd.ShowDialog();
+
+            foreach(DataGridViewCell cell in myGrid.SelectedCells)
+            {
+                Cell logicCell = spreadsheet.GetCell(cell.RowIndex, cell.ColumnIndex);
+                curCells.Push(logicCell);
+                prevCells.Push(logicCell);
+
+                prevColor.Push(logicCell.BGColor);
+                logicCell.BGColor = (uint) cd.Color.ToArgb();
+                curColor.Push(logicCell.BGColor);
+            }
+
+            BGColorChange cmd = new BGColorChange(curCells, prevCells, curColor, prevColor);
+            spreadsheet.AddUndo(cmd);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            string text = spreadsheet.GetCell(e.RowIndex, e.ColumnIndex).Text;
+
+            if(text != "")
+               myGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = text;
+
+        }
+
+        /// <summary>
+        /// Sets the UI grid cell's value to the backend cell's text. Sends current change to undo stack
         /// </summary>
         /// <param name="sender">DataGridView</param>
         /// <param name="e">CellEndEdit</param>
         private void CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            Stack<Cell> curCells = new Stack<Cell>();
+            Stack<Cell> prevCells = new Stack<Cell>();
+
+            Stack<string> curText = new Stack<string>();
+            Stack<string> prevText = new Stack<string>();
+
             if (spreadsheet == null) { return; }
-            string text = myGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-            spreadsheet.GetCell(e.RowIndex, e.ColumnIndex).Text = text;
+            object text = myGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+
+            if(text == null) { text = ""; }
+            Cell cell = spreadsheet.GetCell(e.RowIndex, e.ColumnIndex);
+            string beforeText = cell.Text;
+            cell.Text = text.ToString();
+
+            curCells.Push(cell);
+            prevCells.Push(cell);
+
+            curText.Push(cell.Text);
+            prevText.Push(beforeText);
+
+            TextChange cmd = new TextChange(curCells, prevCells, curText, prevText);
+            spreadsheet.AddUndo(cmd);
+
+            myGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = cell.Value;
+        }
+
+        /// <summary>
+        /// Changes Undo and Redo buttons text to match context. Supported: Text Change and BGColor Change
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditClick(object sender, EventArgs e)
+        {
+            if (!spreadsheet.CanUndo())
+                undo_button.Enabled = false;
+            else
+            {
+                undo_button.Enabled = true;
+                undo_button.Text = "Undo";
+                undo_button.Text += " " + spreadsheet.GetUndoMessage();
+            }
+
+            if (!spreadsheet.CanRedo())
+                redo_button.Enabled = false;
+            else
+            {
+                redo_button.Enabled = true;
+                redo_button.Text = "Redo";
+                redo_button.Text += " " + spreadsheet.GetRedoMessage();
+            }
+        }
+
+        /// <summary>
+        /// Executes Undo action to logic layer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UndoClick(object sender, EventArgs e)
+        {
+            if (spreadsheet.CanUndo())
+                spreadsheet.Undo();
+        }
+
+        /// <summary>
+        /// Executes Redo action to logic layer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RedoClick(object sender, EventArgs e)
+        {
+            if (spreadsheet.CanRedo())
+                spreadsheet.Redo();
         }
 
         /// <summary>

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="ConcreteCellTests.cs" />
     <Compile Include="SpreadsheetTests.cs" />
+    <Compile Include="UndoRedoTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

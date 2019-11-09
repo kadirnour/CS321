@@ -28,7 +28,7 @@ namespace CptS321
                 return instance;
             }
         }
-        public Dictionary<string, double?> VariableDictionary = new Dictionary<string, double?>();
+        public Dictionary<string, double> VariableDictionary = new Dictionary<string, double>();
 
         public void ClearDictionary()
         {

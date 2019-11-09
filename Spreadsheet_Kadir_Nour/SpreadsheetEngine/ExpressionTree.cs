@@ -15,6 +15,7 @@ namespace CptS321
 
         //pattern to check if token is supported operator
         public string opPattern = @"(\+)|(\-)|(\*)|(\/)|(\^)|(\()|(\))";
+
         /*pattern for splitting mathematical expression. Credit: Wiktor Stribiżew on 
         https://stackoverflow.com/questions/34778288/using-regex-to-split-equations-with-variables-c-sharp
         */
@@ -50,16 +51,29 @@ namespace CptS321
         /// <param name="variableValue">value</param>
         public void SetVariable(string variableName, string variableValue)
         {
-            if (tokens == null) { throw new Exception("No Expression"); }
+            if (tokens == null) throw new Exception("No Expression");
+            if (variableValue == "") variableValue = "0";
             foreach (string x in tokens)
             {
-                if (x == variableName)
+                if (x == variableName && VariableReference.Instance.VariableDictionary.ContainsKey(x))
                 {
                     VariableReference.Instance.VariableDictionary[variableName] = float.Parse(variableValue);
                     return;
                 }
             }
             throw new Exception("Variable Not In Expression");
+        }
+        public List<string> GetVariables()
+        {
+            List<string> vars = new List<string>();
+
+            foreach(string x in tokens)
+            {
+                if (!Regex.IsMatch(x, opPattern) && VariableReference.Instance.VariableDictionary.ContainsKey(x) && !vars.Contains(x))
+                    vars.Add(x);
+            }
+
+            return vars;
         }
 
         /// <summary>
@@ -218,10 +232,9 @@ namespace CptS321
         private void BuildTree()
         {
             ToPostFix();
-            VariableReference.Instance.ClearDictionary();
             Stack<Node> nodeStack = new Stack<Node>();
             OperatorFactory opFac = new OperatorFactory();
-
+            VariableReference.Instance.VariableDictionary.Clear();
 
             foreach (string s in tokens)
             {
@@ -232,7 +245,9 @@ namespace CptS321
                 else if (Regex.IsMatch(s, @"\w+"))
                 {
                     nodeStack.Push(new VariableNode(s));
-                    VariableReference.Instance.VariableDictionary.Add(s, 0);
+
+                    if (!VariableReference.Instance.VariableDictionary.ContainsKey(s))
+                        VariableReference.Instance.VariableDictionary.Add(s, 0);
                 }
                 else
                 {

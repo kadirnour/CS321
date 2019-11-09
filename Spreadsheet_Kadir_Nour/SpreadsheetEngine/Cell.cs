@@ -20,6 +20,7 @@ namespace CptS321
         protected int columnIndex;
         protected string text;
         protected string value;
+        protected uint bgColor = 0xFFFFFFFF;
 
         /// <summary>
         /// Propert to get rowIndex
@@ -67,7 +68,19 @@ namespace CptS321
                 if (value != this.value)
                 {
                     this.value = value;
+                    OnPropertyChanged("Value");
                 }
+            }
+        }
+
+        public uint BGColor
+        {
+            get { return bgColor; }
+
+            set
+            {
+                this.bgColor = value;
+                OnPropertyChanged("BGColor");
             }
         }
 

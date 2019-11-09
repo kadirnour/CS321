@@ -29,10 +29,11 @@ namespace CptS321
         /// <returns>Node value</returns>
         public override double Eval()
         {
-            var val = VariableReference.Instance.VariableDictionary[this.Name];
-            if (val == null) { throw new Exception("Variable has no Value"); }
+            double val = 0;
+            if(VariableReference.Instance.VariableDictionary.ContainsKey(Name))
+                val = VariableReference.Instance.VariableDictionary[Name];
 
-            return val.Value;
+            return val;
         }
     }
 }
